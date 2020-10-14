@@ -23,6 +23,7 @@ PKG_NAME = 'tuneup'
 
 dup_list = ["1990\tJacob's Ladder", '1990\tThe Two Jakes', '1991\tHouse Party 2', '1992\tThe Distinguished Gentleman', '1994\tBlown Away', '1995\tMoney Train', '1999\tAmerican Pie', '2010\tEat Pray Love', '2014\tBig Hero 6']
 
+
 def function_timer(func, param):
     """Our own timeit helper function"""
     f = functools.partial(func, param)
@@ -47,7 +48,7 @@ class TestTuneup(unittest.TestCase):
             actual_t, timeit.Timer,
             "timeit_helper() should return the timeit.Timer object instance"
             )
-        # Checks if the setup= part is correct    
+        # Checks if the setup= part is correct
         self.assertIn(
             f"from {PKG_NAME} import {func_name}", actual_t.src,
             "The timeit.Timer setup is incorrect"
@@ -68,7 +69,7 @@ class TestTuneup(unittest.TestCase):
             callable(decorated),
             "The decorator function must return a callable"
             )
-        # call the decorated function.  Is it printing any pStats?    
+        # call the decorated function.  Is it printing any pStats?
         buffer = StringIO()
         with redirect_stdout(buffer):
             decorated()
@@ -104,12 +105,17 @@ class TestTuneup(unittest.TestCase):
             improvement, 500.0,
             "The function does not appear to be optimized"
             )
+    
+    # def test_profile_decoratorV2(self):
+    #     func = self.module.profile
+    #     funs = self.module.timeit_helper
+    #     self.assertEqual(func(), 'something')
 
     def test_flake8(self):
         """Checking for PEP8/flake8 compliance"""
         result = subprocess.run(['flake8', self.module.__file__])
         self.assertEqual(result.returncode, 0)
-    
+
     def test_author_string(self):
         """Checking for author string"""
         self.assertIsNotNone(self.module.__author__)
